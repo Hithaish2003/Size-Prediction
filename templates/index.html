@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dress Size Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(to right bottom, #6366f1, #a855f7);
+    min-height: 100vh;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 500px; 
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 2rem; 
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    box-sizing: border-box;
+}
+        
+        h1 {
+            font-size: 2.25rem; 
+            font-weight: 800;
+            text-align: center;
+            color: #1f2937;
+            margin-top: 0;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 .highlight {
+            color: #4f46e5; 
+            display: block;
+        }
+        
+        form {
+            --space-y: 2rem;
+        }
+        form > * + * {
+            margin-top: var(--space-y);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem; 
+            font-weight: 500;
+            color: #374151; 
+            margin-bottom: 0.25rem;
+        }
+
+        .form-input, .form-select {
+            margin-top: 0.25rem;
+            display: block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db; 
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            font-size: 1rem; 
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-sizing: border-box; 
+        }
+        
+        .form-input::placeholder {
+            color: #9ca3af; 
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #4f46e5; 
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            font-size: 1rem; 
+            font-weight: 500;
+            border-radius: 0.5rem;
+            color: #ffffff;
+            background-color: #4f46e5; 
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4338ca; 
+            transform: scale(1.02);
+        }
+
+        .error-list {
+            color: #dc2626; 
+            font-size: 0.875rem; 
+            margin-top: 0.25rem;
+            padding-left: 1.25rem;
+            list-style-type: disc;
+        }
+
+        .error-message {
+            background-color: #fee2e2; 
+            border: 1px solid #f87171; 
+            color: #b91c1c;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .prediction-result-card {
+            background-color: #dcfce7; 
+            border: 1px solid #4ade80;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            box-sizing: border-box;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        .prediction-result-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #166534;
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+        }
+
+        .prediction-result-card p {
+            font-size: 1.125rem;
+            margin: 0.5rem 0;
+            color: #15803d; 
+        }
+
+        .prediction-result-card strong {
+            font-weight: 600;
+        }
+        
+        .prediction-result-card .predicted-value {
+            color: #14532d; 
+            font-weight: 500;
+        }
+
+        .prediction-result-card .price-display {
+            font-size: 1.875rem; 
+            font-weight: 800;
+            color: #166534; 
+            margin-top: 1.25rem;
+            margin-bottom: 1.5rem; 
+        }
+    .btn-secondary {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #4f46e5; 
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    color: #4f46e5; 
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, color 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background-color: #e0e7ff;
+    color: #3730a3; 
+    transform: scale(1.02);
+}
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="card">
+            <h1>
+                <span>Dress Size</span>
+                <span class="highlight">Predictor</span>
+            </h1>
+
+            {% if error_message %}
+                <div class="error-message" role="alert">
+                    <strong>Oops!</strong>
+                    <span>{{ error_message }}</span>
+                </div>
+            {% endif %}
+
+            <form method="POST" autocomplete="off">
+                {{ form.csrf_token }}
+                <div>
+                    <label for="{{ form.weight_kg.id }}" class="form-label">{{ form.weight_kg.label }}</label>
+                    {{ form.weight_kg(class="form-input", placeholder="e.g., 70") }}
+                    {% if form.weight_kg.errors %}
+                        <ul class="error-list">
+                            {% for error in form.weight_kg.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    <label for="{{ form.height_cm.id }}" class="form-label">{{ form.height_cm.label }}</label>
+                    {{ form.height_cm(class="form-input", placeholder="e.g., 175") }}
+                    {% if form.height_cm.errors %}
+                        <ul class="error-list">
+                            {% for error in form.height_cm.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <div>
+                    {{ form.submit(class="btn-primary") }}
+                </div>
+            </form>
+        </div>
+
+        {% if prediction_result %}
+            <div class="prediction-result-card" role="alert">
+                <h2>Prediction Result:</h2>
+                <p>Based on your input:</p>
+                <p>Weight: <span class="predicted-value">{{ prediction_result.weight }}</span> kg</p>
+                <p>Height: <span class="predicted-value">{{ prediction_result.height }}</span> cm</p>
+                <p class="price-display">Predicted Size: <span>{{ prediction_result.size }}</span></p>
+
+                <a href="/" class="btn-secondary">Make New Prediction</a>
+            </div>
+        {% endif %}
+    </div>
+    <footer style="width: 100%; text-align: center; margin-top: 2rem; font-size: 0.875rem; color: #f3f4f6;">
+    &copy; 2025 HITHAISH K A. All rights reserved.
+</footer>
+
+</body>
+</html>
